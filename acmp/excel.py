@@ -11,7 +11,8 @@ class ExcelParentWriter:
             if idx == 1 and i:
                 worksheet.write_url(idx, i, 'https://acmp.ru/?main=user&id={}'.format(arg), self.link_style, str(arg))
             elif i == 0 and type(arg) == int:
-                worksheet.write_url(idx, i, 'https://acmp.ru/index.asp?main=task&id_task={}'.format(arg), self.link_style, str(arg))
+                worksheet.write_url(idx, i, 'https://acmp.ru/index.asp?main=task&id_task={}'.format(arg),
+                                    self.link_style, str(arg))
             elif type(arg) == list and arg[0] == 1 and color and i:
                 worksheet.write(idx, i, arg[1], self.green_style)
             elif type(arg) == list and arg[0] == -1 and color and i:
@@ -66,6 +67,7 @@ class ExcelParentWriter:
         self.red_style = self.workbook.add_format({'bg_color': 'red'})
         self.link_style = self.workbook.add_format({'color': 'blue'})
         self.link_style.set_underline()
+        self.caps_style, self.normal_style = None, None
 
 
 class ExcelWriter(ExcelParentWriter):
@@ -75,7 +77,6 @@ class ExcelWriter(ExcelParentWriter):
             tasks_list = range(1, max(_[1].max_task for _ in data) + 1)
         else:
             wr, self.head_size = [['ID'], ['+'], ['-']], 3
-        tasks_count = max(_[1].max_task for _ in data) + 1
         wr.extend([i] for i in tasks_list)
         for x in data:
             user, tasks = x

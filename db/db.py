@@ -10,7 +10,7 @@ def execute(query):
         cur = con.cursor()
         cur.execute(query)
         con.commit()
-    except Exception:
+    except db.Error:
         pass
 
 
@@ -20,5 +20,5 @@ def evaluate(query):
         cur = con.cursor()
         res = cur.execute(query).fetchall()
         return res
-    except Exception:
+    except db.Error:
         return None

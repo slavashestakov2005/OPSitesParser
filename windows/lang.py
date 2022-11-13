@@ -75,7 +75,7 @@ class LangNamesWindow(Menu):
         self.btn3.clicked.connect(self.click3)
 
     def update_table(self):
-        names = [[self.langs[_[1]] , _[0]] for _ in LangName.select_all()]
+        names = [[self.langs[_[1]], _[0]] for _ in LangName.select_all()]
         head = ['Язык', 'Название']
         self.load_table(head, names)
         self.update_menu()

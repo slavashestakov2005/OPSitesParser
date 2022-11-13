@@ -78,8 +78,7 @@ class GroupSettingsWindow(Menu):
 class GroupWindow(Menu):
     def __init__(self, group_id, group_name):
         super().__init__('ui/group.ui')
-        self.group = group_id
-        self.name = group_name
+        self.group, self.name, self.ug = group_id, group_name, None
         all_users = User.select_all()
         self.users = {_[0]: _[2] + ' (' + str(_[1]) + ')' for _ in all_users}
         self.acmp2user = {_[1]: _[0] for _ in all_users}
@@ -116,7 +115,8 @@ class GroupWindow(Menu):
         try:
             dialog = QMessageBox(self)
             dialog.setWindowTitle("Вы уверены?")
-            dialog.setText("Обновление может быть долгим...\nОно будет выполнено асинхронно, результаты будут сохранены в папке группы.")
+            dialog.setText("Обновление может быть долгим...\nОно будет выполнено асинхронно, результаты будут сохранены"
+                           "в папке группы.")
             dialog.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
             dialog.setIcon(QMessageBox.Question)
             result = dialog.exec()

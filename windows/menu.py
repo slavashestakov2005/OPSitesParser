@@ -5,6 +5,12 @@ from db import Group, User
 
 
 class Menu(QMainWindow):
+    def __init__(self, file):
+        super().__init__()
+        uic.loadUi(file, self)
+        self.update_menu()
+        self.w = None
+
     def add_action(self, menu, func, text, separator=False):
         action = QAction(str(text), self)
         action.triggered.connect(func)
@@ -28,11 +34,6 @@ class Menu(QMainWindow):
         self.close()
         self.w.show()
 
-    def __init__(self, file):
-        super().__init__()
-        uic.loadUi(file, self)
-        self.update_menu()
-
     def update_menu(self):
         self.menu_1.clear()
         self.menu_2.clear()
@@ -49,44 +50,44 @@ class Menu(QMainWindow):
         for user in User.select_all():
             self.add_action(self.menu_2, self.push2, '{} ({})'.format(user[2], user[1]))
 
-    def push1s(self, *args):
+    def push1s(self):
         from windows.group import GroupSettingsWindow as w
         self.open_window(w)
 
-    def push2s(self, *args):
+    def push2s(self):
         from windows.user import UserSettingsWindow as w
         self.open_window(w)
 
-    def push1(self, *args):
+    def push1(self):
         try:
             from windows.group import GroupWindow as w
             group_name = self.sender().text()
             group_id = Group.select_name(group_name)[0][0]
             self.open_window(w, group_id, group_name)
-        except Exception as ex:
+        except Exception:
             pass
 
-    def push2(self, *args):
+    def push2(self):
         try:
             from windows.user import UserWindow as w
             acmp_id = int(self.sender().text().split('(')[-1][:-1])
             acmp_name = User.select_acmp(acmp_id)[0][2]
             self.open_window(w, acmp_id, acmp_name)
-        except Exception as ex:
+        except Exception:
             pass
 
-    def push31(self, *args):
+    def push31(self):
         from windows.lang import LangMainWindow as w
         self.open_window(w)
 
-    def push32(self, *args):
+    def push32(self):
         from windows.lang import LangNamesWindow as w
         self.open_window(w)
 
-    def push41(self, *args):
+    def push41(self):
         from windows.hw import HWListWindow as w
         self.open_window(w)
 
-    def push42(self, *args):
+    def push42(self):
         from windows.hw import HWGroupWindow as w
         self.open_window(w)
